@@ -25,7 +25,6 @@ export default function NavBar({ links }) {
             textAlign: "left",
           }}
         >
-          <WorkIcon sx={{ fontSize: "2rem", mr: 1 }} />
           <Button
             sx={{
               fontSize: "1.5rem",
@@ -34,18 +33,19 @@ export default function NavBar({ links }) {
               textTransform: "none",
             }}
           >
-            
+            <WorkIcon sx={{ fontSize: "2rem", mr: 1 }} />
             Job Application Tracker
           </Button>
         </Typography>
 
-        {links.map(({ label, path }) => (
+        {links.map(({ label, path, onClick }) => (
           <Button
             key={label}
             color="inherit"
             component={Link}
             to={path}
-            sx={{ fontSize: "1rem", fontWeight: "bold" }} // ✅ Styled buttons
+            sx={{ fontSize: "1rem", fontWeight: "bold" }}
+            onClick={onClick} // ✅ Styled buttons
           >
             {label}
           </Button>
@@ -60,6 +60,7 @@ NavBar.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
+      onClick: PropTypes.func,
     })
   ).isRequired,
 };
