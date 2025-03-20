@@ -9,7 +9,7 @@ const RegisterPage = () => {
           Register
         </Typography>
         <Box component="form" noValidate autoComplete="off" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField label="Full Name" variant="outlined" fullWidth required />
+          <TextField label="Username" variant="outlined" fullWidth required />
           <TextField label="Email" variant="outlined" fullWidth required />
           <TextField label="Password" type="password" variant="outlined" fullWidth required />
           <TextField label="Confirm Password" type="password" variant="outlined" fullWidth required />

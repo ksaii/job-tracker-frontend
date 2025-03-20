@@ -1,54 +1,41 @@
-import { useState } from "react";
-import "./App.css";
-import NavBar from "./Components/NavBar";
-import Hero from "./Components/Hero";
-import Grid from "./Components/Grid";
-import Card from "./Components/Card";
-import Footer from "./Components/Footer";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { AuthProvider, useAuth } from './Contexts/AuthContext';
+import NavBar from "./Components/NavBar";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import UserDashboard from "./Pages/UserDashboard";
+import Footer from "./Components/Footer";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
   );
 }
 
 function AppContent() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, logout } = useAuth(); // Get user and logout function from context
 
-  const handleGoLogin = () => navigate("/login");
-  const handleGoHome = () => navigate("/");
-  const handleGoAbout = () => navigate("/about");
-  const handleGoContact = () => navigate("/contact");
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    navigate("/");
+    logout(); // Use logout function from context
+    navigate("/"); // Redirect to homepage after logout
   };
 
   const navLinks = [
-    { label: "Home", path: "/", onClick: handleGoHome }, // ✅ Fixed function reference
-    { label: "About", path: "/about", onClick: handleGoAbout },
-    { label: "Contact", path: "/contact", onClick: handleGoContact },
-    {
-      label: isLoggedIn ? "Logout" : "Login",
-      path: isLoggedIn ? "/" : "/login",
-      onClick: isLoggedIn ? handleLogout : handleGoLogin,
-    },
+    { label: "Home", path: "/", onClick: () => navigate("/") },
+    { label: "About", path: "/about", onClick: () => navigate("/about") },
+    { label: "Contact", path: "/contact", onClick: () => navigate("/contact") },
+    { label: "Dashboard", path: "/dashboard", onClick: () => navigate("/dashboard"), isProtected: true },
   ];
 
   return (
@@ -60,26 +47,24 @@ function AppContent() {
         bgcolor: "background.default",
       }}
     >
-      <NavBar links={navLinks} />
+      <NavBar user={user} onLogout={logout} links={navLinks} />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Home />
-              <Hero />
-              <Grid />
-            </>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<div>404 Not Found</div>} />
         <Route path="/register" element={<Register />} />
-      </Routes>
 
-      <Footer />
+        {/* Redirect to Login if the user is not authenticated and tries to access the dashboard */}
+        <Route
+          path="/dashboard"
+          element={user ? <UserDashboard /> : <Navigate to="/login" />}
+        />
+
+        {/* Fallback route */}
+        <Route path="*" element={<div>404 Not Found</div>} />
+      </Routes>
+      
     </Box>
   );
 }
