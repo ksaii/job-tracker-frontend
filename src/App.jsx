@@ -33,9 +33,10 @@ function AppContent() {
 
   const navLinks = [
     { label: "Home", path: "/", onClick: () => navigate("/") },
-    { label: "About", path: "/about", onClick: () => navigate("/about") },
-    { label: "Contact", path: "/contact", onClick: () => navigate("/contact") },
     { label: "Dashboard", path: "/dashboard", onClick: () => navigate("/dashboard"), isProtected: true },
+    { label: "Contact", path: "/contact", onClick: () => navigate("/contact") },
+    { label: "About", path: "/about", onClick: () => navigate("/about") },
+    
   ];
 
   return (
