@@ -1,25 +1,48 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+const lightTheme = createTheme({
   palette: {
-    mode: "dark", // Black & white dark mode
+    mode: 'light',
     primary: {
-      main: "#A67B5B", // Brown pastel
+      main: '#2962FF', // A modern, vibrant blue
+    },
+    secondary: {
+      main: '#448AFF', // A slightly lighter blue for accents
     },
     background: {
-      default: "#121212", // Dark mode background
-      paper: "#1E1E1E", // Card background
+      default: '#f5f5f5', // Light gray background
+      paper: '#ffffff', // White paper for cards
     },
     text: {
-      primary: "#FFFFFF", // White text
-      secondary: "#B0B0B0", // Light gray text
+      primary: '#212121', // Dark gray text
+      secondary: '#424242', // Slightly lighter gray text
     },
   },
   typography: {
-    fontFamily: "Arial, sans-serif",
-    h1: { fontSize: "2.5rem", fontWeight: "bold" },
-    h6: { fontSize: "1.2rem", fontWeight: "normal" },
+    fontFamily: 'Roboto, sans-serif',
+    h1: { fontSize: '2.5rem', fontWeight: 'bold' },
+    h6: { fontSize: '1.2rem', fontWeight: 'normal' },
   },
 });
 
-export default theme;
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#82B1FF', // A lighter, more vibrant blue for dark mode
+    },
+    secondary: {
+      main: '#448AFF',
+    },
+    background: {
+      default: '#121212', // Dark gray background
+      paper: '#1e1e1e', // Darker gray for cards
+    },
+    text: {
+      primary: '#eeeeee', // Off-white text
+    },
+  },
+  typography: lightTheme.typography,
+});
+export default lightTheme;
+export { darkTheme };

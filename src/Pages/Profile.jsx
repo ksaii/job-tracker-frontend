@@ -8,7 +8,7 @@ export default function Profile() {
     location: 'San Antonio, TX',
     role: 'Full Stack Developer',
     bio: 'Passionate about building tools that make job hunting smarter. Loves React, Java Spring, and gaming in his downtime.',
-    avatar: 'https://i.pravatar.cc/150?img=0',
+    avatar: 'https://api.dicebear.com/9.x/dylan/svg?seed=abramsmith',
   };
 
   return (

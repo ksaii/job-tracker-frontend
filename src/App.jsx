@@ -12,6 +12,8 @@ import UserDashboard from './Pages/UserDashboard';
 import Footer from './Components/Footer';
 import { Navigate } from 'react-router-dom';
 import Profile from './Pages/Profile';
+import DashboardLayout from './Components/DashboardLayout';
+import DashboardNavbar from './Components/DashboardNavBar';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
 function AppContent() {
   const navigate = useNavigate();
   const { user, logout } = useAuth(); // Get user and logout function from context
+  const hideNavBar = ['/dashboard'];
+
+  const isDashboard =
+    location.pathname === '/dashboard' || location.pathname.startsWith('/dashboard/');
 
   const handleLogout = () => {
     logout(); // Use logout function from context
@@ -53,7 +59,9 @@ function AppContent() {
         bgcolor: 'background.default',
       }}
     >
-      <NavBar user={user} onLogout={logout} links={navLinks} />
+      {!isDashboard && <NavBar user={user} onLogout={logout} links={navLinks} />}
+
+      {isDashboard && <DashboardNavbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -63,11 +71,16 @@ function AppContent() {
         <Route path="/profile" element={<Profile />} />
 
         {/* Redirect to Login if the user is not authenticated and tries to access the dashboard */}
-        <Route path="/dashboard" element={user ? <UserDashboard /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <DashboardLayout /> : <Navigate to="/login" />}>
+          <Route index element={<UserDashboard />} />
+          <Route path="/analyzer" element={<UserDashboard />} />
+          <Route path="/tracker" element={<UserDashboard />} />
+        </Route>
 
         {/* Fallback route */}
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
+      <Footer />
     </Box>
   );
 }
